@@ -1,3 +1,4 @@
-Hi, I am SAKIB AL HRIDOY. 
-A Student of Shahjalal University of Science and Tenchnology. 
-CSE Department. Registration: 2021331005
+Hi, I am Shahriar Galib Sowmik. 
+A Student of Shahjalal University of Science and Technology. 
+Department of CSE. 
+Registration num: 2021331037
