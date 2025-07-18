@@ -1,0 +1,262 @@
+<html>
+<head>
+<title>MainActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+.s4 { color: #6aab73;}
+.s5 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MainActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">weatherapp</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">SuppressLint</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">app</span><span class="s2">.</span><span class="s1">DownloadManager</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">content</span><span class="s2">.</span><span class="s1">Context</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">content</span><span class="s2">.</span><span class="s1">pm</span><span class="s2">.</span><span class="s1">PackageManager</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">location</span><span class="s2">.</span><span class="s1">Address</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">location</span><span class="s2">.</span><span class="s1">Geocoder</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">location</span><span class="s2">.</span><span class="s1">Location</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">location</span><span class="s2">.</span><span class="s1">LocationManager</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">os</span><span class="s2">.</span><span class="s1">Bundle</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Log</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">View</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">WindowManager</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">ImageView</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">ProgressBar</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">RelativeLayout</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">TextView</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">activity</span><span class="s2">.</span><span class="s1">EdgeToEdge</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">NonNull</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">appcompat</span><span class="s2">.</span><span class="s1">app</span><span class="s2">.</span><span class="s1">AppCompatActivity</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">core</span><span class="s2">.</span><span class="s1">app</span><span class="s2">.</span><span class="s1">ActivityCompat</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">core</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">Insets</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">core</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">ViewCompat</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">core</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">WindowInsetsCompat</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">recyclerview</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">LinearLayoutManager</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">recyclerview</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">RecyclerView</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">volley</span><span class="s2">.</span><span class="s1">Request</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">volley</span><span class="s2">.</span><span class="s1">Response</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">volley</span><span class="s2">.</span><span class="s1">VolleyError</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">volley</span><span class="s2">.</span><span class="s1">toolbox</span><span class="s2">.</span><span class="s1">JsonObjectRequest</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">google</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">material</span><span class="s2">.</span><span class="s1">textfield</span><span class="s2">.</span><span class="s1">TextInputEditText</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">IOException</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">ArrayList</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">List</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Locale</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">Manifest</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">Toast</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">volley</span><span class="s2">.</span><span class="s1">RequestQueue</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">volley</span><span class="s2">.</span><span class="s1">toolbox</span><span class="s2">.</span><span class="s1">Volley</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">squareup</span><span class="s2">.</span><span class="s1">picasso</span><span class="s2">.</span><span class="s1">Picasso</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">json</span><span class="s2">.</span><span class="s1">JSONArray</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">json</span><span class="s2">.</span><span class="s1">JSONException</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">json</span><span class="s2">.</span><span class="s1">JSONObject</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">MainActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity </span><span class="s2">{</span>
+    <span class="s0">private </span><span class="s1">RelativeLayout idHome</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">TextView idCityName</span><span class="s2">,</span><span class="s1">idTemp</span><span class="s2">,</span><span class="s1">idCondition</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">RecyclerView idWeatherCard</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">TextInputEditText idEditCity</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">ImageView idSearch</span><span class="s2">,</span><span class="s1">idConditionIm</span><span class="s2">,</span><span class="s1">idBack</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">ArrayList</span><span class="s2">&lt;</span><span class="s1">WeatherModel</span><span class="s2">&gt;</span><span class="s1">weatherModelArray</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">WeatherAdapter weatherAdapter</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">LocationManager locationManager</span><span class="s2">;</span>
+    <span class="s0">private int </span><span class="s1">PERMISSION_CODE</span><span class="s2">=</span><span class="s3">1</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">String cityname</span><span class="s2">;</span>
+
+    <span class="s1">@SuppressLint</span><span class="s2">(</span><span class="s4">&quot;MissingInflatedId&quot;</span><span class="s2">)</span>
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">Bundle savedInstanceState</span><span class="s2">) {</span>
+        <span class="s0">super</span><span class="s2">.</span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">savedInstanceState</span><span class="s2">);</span>
+
+        <span class="s1">getWindow</span><span class="s2">().</span><span class="s1">setFlags</span><span class="s2">(</span><span class="s1">WindowManager</span><span class="s2">.</span><span class="s1">LayoutParams</span><span class="s2">.</span><span class="s1">FLAG_LAYOUT_NO_LIMITS</span><span class="s2">,</span><span class="s1">WindowManager</span><span class="s2">.</span><span class="s1">LayoutParams</span><span class="s2">.</span><span class="s1">FLAG_LAYOUT_NO_LIMITS</span><span class="s2">);</span>
+
+        <span class="s1">setContentView</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">layout</span><span class="s2">.</span><span class="s1">activity_main</span><span class="s2">);</span>
+        <span class="s1">idHome</span><span class="s2">=</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">idHome</span><span class="s2">);</span>
+        <span class="s1">idCityName</span><span class="s2">=</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">idCityName</span><span class="s2">);</span>
+        <span class="s1">idTemp</span><span class="s2">=</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">idTemp</span><span class="s2">);</span>
+        <span class="s1">idCondition</span><span class="s2">=</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">idCondition</span><span class="s2">);</span>
+        <span class="s1">idWeatherCard</span><span class="s2">=</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">idWeatherCard</span><span class="s2">);</span>
+        <span class="s1">idEditCity</span><span class="s2">=</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">idEditCity</span><span class="s2">);</span>
+        <span class="s1">idSearch</span><span class="s2">=</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">idSearch</span><span class="s2">);</span>
+        <span class="s1">idConditionIm</span><span class="s2">=</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">idConditionIm</span><span class="s2">);</span>
+        <span class="s1">idBack </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">idBack</span><span class="s2">);</span>
+        <span class="s1">weatherModelArray</span><span class="s2">=</span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+        <span class="s1">weatherAdapter</span><span class="s2">=</span><span class="s0">new </span><span class="s1">WeatherAdapter</span><span class="s2">(</span><span class="s0">this</span><span class="s2">,</span><span class="s1">weatherModelArray</span><span class="s2">);</span>
+        <span class="s1">idWeatherCard</span><span class="s2">.</span><span class="s1">setAdapter</span><span class="s2">(</span><span class="s1">weatherAdapter</span><span class="s2">);</span>
+        <span class="s1">idWeatherCard</span><span class="s2">.</span><span class="s1">setLayoutManager</span><span class="s2">(</span><span class="s0">new </span><span class="s1">LinearLayoutManager</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s1">LinearLayoutManager</span><span class="s2">.</span><span class="s1">HORIZONTAL</span><span class="s2">, </span><span class="s0">false</span><span class="s2">));</span>
+
+
+        <span class="s1">locationManager</span><span class="s2">=(</span><span class="s1">LocationManager</span><span class="s2">) </span><span class="s1">getSystemService</span><span class="s2">(</span><span class="s1">Context</span><span class="s2">.</span><span class="s1">LOCATION_SERVICE</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">ActivityCompat</span><span class="s2">.</span><span class="s1">checkSelfPermission</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s1">Manifest</span><span class="s2">.</span><span class="s1">permission</span><span class="s2">.</span><span class="s1">ACCESS_FINE_LOCATION</span><span class="s2">) != </span><span class="s1">PackageManager</span><span class="s2">.</span><span class="s1">PERMISSION_GRANTED</span>
+                <span class="s2">&amp;&amp; </span><span class="s1">ActivityCompat</span><span class="s2">.</span><span class="s1">checkSelfPermission</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s1">Manifest</span><span class="s2">.</span><span class="s1">permission</span><span class="s2">.</span><span class="s1">ACCESS_COARSE_LOCATION</span><span class="s2">) != </span><span class="s1">PackageManager</span><span class="s2">.</span><span class="s1">PERMISSION_GRANTED</span><span class="s2">) {</span>
+            <span class="s1">ActivityCompat</span><span class="s2">.</span><span class="s1">requestPermissions</span><span class="s2">(</span>
+                    <span class="s0">this</span><span class="s2">,</span>
+                    <span class="s0">new </span><span class="s1">String</span><span class="s2">[]{</span>
+                            <span class="s1">Manifest</span><span class="s2">.</span><span class="s1">permission</span><span class="s2">.</span><span class="s1">ACCESS_FINE_LOCATION</span><span class="s2">,</span>
+                            <span class="s1">Manifest</span><span class="s2">.</span><span class="s1">permission</span><span class="s2">.</span><span class="s1">ACCESS_COARSE_LOCATION</span>
+                    <span class="s2">},</span>
+                    <span class="s1">PERMISSION_CODE</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">ActivityCompat</span><span class="s2">.</span><span class="s1">checkSelfPermission</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s1">Manifest</span><span class="s2">.</span><span class="s1">permission</span><span class="s2">.</span><span class="s1">ACCESS_FINE_LOCATION</span><span class="s2">) == </span><span class="s1">PackageManager</span><span class="s2">.</span><span class="s1">PERMISSION_GRANTED</span>
+                <span class="s2">|| </span><span class="s1">ActivityCompat</span><span class="s2">.</span><span class="s1">checkSelfPermission</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s1">Manifest</span><span class="s2">.</span><span class="s1">permission</span><span class="s2">.</span><span class="s1">ACCESS_COARSE_LOCATION</span><span class="s2">) == </span><span class="s1">PackageManager</span><span class="s2">.</span><span class="s1">PERMISSION_GRANTED</span><span class="s2">) {</span>
+
+            <span class="s1">Location location </span><span class="s2">= </span><span class="s1">locationManager</span><span class="s2">.</span><span class="s1">getLastKnownLocation</span><span class="s2">(</span><span class="s1">LocationManager</span><span class="s2">.</span><span class="s1">NETWORK_PROVIDER</span><span class="s2">);</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">location </span><span class="s2">!= </span><span class="s0">null</span><span class="s2">) {</span>
+                <span class="s1">cityname </span><span class="s2">= </span><span class="s1">getcityname</span><span class="s2">(</span><span class="s1">location</span><span class="s2">.</span><span class="s1">getLongitude</span><span class="s2">(), </span><span class="s1">location</span><span class="s2">.</span><span class="s1">getLatitude</span><span class="s2">());</span>
+                <span class="s1">getweatherinfo</span><span class="s2">(</span><span class="s1">cityname</span><span class="s2">);</span>
+            <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s4">&quot;Unable to get location&quot;</span><span class="s2">, </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_SHORT</span><span class="s2">).</span><span class="s1">show</span><span class="s2">();</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+
+        <span class="s1">idSearch</span><span class="s2">.</span><span class="s1">setOnClickListener</span><span class="s2">(</span><span class="s0">new </span><span class="s1">View</span><span class="s2">.</span><span class="s1">OnClickListener</span><span class="s2">() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick</span><span class="s2">(</span><span class="s1">View v</span><span class="s2">) {</span>
+                <span class="s1">String city</span><span class="s2">=</span><span class="s1">idEditCity</span><span class="s2">.</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">toString</span><span class="s2">();</span>
+                <span class="s0">if</span><span class="s2">(</span><span class="s1">city</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()){</span>
+                    <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s1">MainActivity</span><span class="s2">.</span><span class="s0">this</span><span class="s2">,</span><span class="s4">&quot;Please Enter City Name&quot;</span><span class="s2">,</span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_SHORT</span><span class="s2">).</span><span class="s1">show</span><span class="s2">();</span>
+                <span class="s2">}</span><span class="s0">else</span><span class="s2">{</span>
+                    <span class="s1">idCityName</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s1">city</span><span class="s2">);</span>
+                    <span class="s1">getweatherinfo</span><span class="s2">(</span><span class="s1">city</span><span class="s2">);</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+        <span class="s2">});</span>
+    <span class="s2">}</span>
+
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onRequestPermissionsResult</span><span class="s2">(</span><span class="s0">int </span><span class="s1">requestCode</span><span class="s2">, </span><span class="s1">@NonNull String</span><span class="s2">[] </span><span class="s1">permissions</span><span class="s2">, </span><span class="s1">@NonNull </span><span class="s0">int</span><span class="s2">[] </span><span class="s1">grantResults</span><span class="s2">) {</span>
+        <span class="s0">super</span><span class="s2">.</span><span class="s1">onRequestPermissionsResult</span><span class="s2">(</span><span class="s1">requestCode</span><span class="s2">, </span><span class="s1">permissions</span><span class="s2">, </span><span class="s1">grantResults</span><span class="s2">);</span>
+        <span class="s1">ProgressBar progressBar </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">progressBar</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">requestCode </span><span class="s2">== </span><span class="s1">PERMISSION_CODE</span><span class="s2">) {</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">grantResults</span><span class="s2">.</span><span class="s1">length </span><span class="s2">&gt; </span><span class="s3">0 </span><span class="s2">&amp;&amp; </span><span class="s1">grantResults</span><span class="s2">[</span><span class="s3">0</span><span class="s2">] == </span><span class="s1">PackageManager</span><span class="s2">.</span><span class="s1">PERMISSION_GRANTED</span><span class="s2">) {</span>
+                <span class="s1">progressBar</span><span class="s2">.</span><span class="s1">setVisibility</span><span class="s2">(</span><span class="s1">View</span><span class="s2">.</span><span class="s1">VISIBLE</span><span class="s2">);</span>
+                <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s4">&quot;Permission Granted&quot;</span><span class="s2">, </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_SHORT</span><span class="s2">).</span><span class="s1">show</span><span class="s2">();</span>
+
+                <span class="s1">locationManager </span><span class="s2">= (</span><span class="s1">LocationManager</span><span class="s2">) </span><span class="s1">getSystemService</span><span class="s2">(</span><span class="s1">Context</span><span class="s2">.</span><span class="s1">LOCATION_SERVICE</span><span class="s2">);</span>
+
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">ActivityCompat</span><span class="s2">.</span><span class="s1">checkSelfPermission</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s1">Manifest</span><span class="s2">.</span><span class="s1">permission</span><span class="s2">.</span><span class="s1">ACCESS_FINE_LOCATION</span><span class="s2">) == </span><span class="s1">PackageManager</span><span class="s2">.</span><span class="s1">PERMISSION_GRANTED</span>
+                        <span class="s2">|| </span><span class="s1">ActivityCompat</span><span class="s2">.</span><span class="s1">checkSelfPermission</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s1">Manifest</span><span class="s2">.</span><span class="s1">permission</span><span class="s2">.</span><span class="s1">ACCESS_COARSE_LOCATION</span><span class="s2">) == </span><span class="s1">PackageManager</span><span class="s2">.</span><span class="s1">PERMISSION_GRANTED</span><span class="s2">) {</span>
+
+                    <span class="s1">Location location </span><span class="s2">= </span><span class="s1">locationManager</span><span class="s2">.</span><span class="s1">getLastKnownLocation</span><span class="s2">(</span><span class="s1">LocationManager</span><span class="s2">.</span><span class="s1">NETWORK_PROVIDER</span><span class="s2">);</span>
+                    <span class="s0">if </span><span class="s2">(</span><span class="s1">location </span><span class="s2">!= </span><span class="s0">null</span><span class="s2">) {</span>
+                        <span class="s1">cityname </span><span class="s2">= </span><span class="s1">getcityname</span><span class="s2">(</span><span class="s1">location</span><span class="s2">.</span><span class="s1">getLongitude</span><span class="s2">(), </span><span class="s1">location</span><span class="s2">.</span><span class="s1">getLatitude</span><span class="s2">());</span>
+                        <span class="s1">getweatherinfo</span><span class="s2">(</span><span class="s1">cityname</span><span class="s2">);</span>
+                    <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                        <span class="s1">progressBar</span><span class="s2">.</span><span class="s1">setVisibility</span><span class="s2">(</span><span class="s1">View</span><span class="s2">.</span><span class="s1">GONE</span><span class="s2">);</span>
+                        <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s4">&quot;Unable to get location&quot;</span><span class="s2">, </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_SHORT</span><span class="s2">).</span><span class="s1">show</span><span class="s2">();</span>
+                    <span class="s2">}</span>
+                <span class="s2">}</span>
+
+            <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s4">&quot;Please provide the permissions&quot;</span><span class="s2">, </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_SHORT</span><span class="s2">).</span><span class="s1">show</span><span class="s2">();</span>
+                <span class="s1">finish</span><span class="s2">();</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+
+    <span class="s0">private </span><span class="s1">String getcityname</span><span class="s2">(</span><span class="s0">double </span><span class="s1">longitude</span><span class="s2">, </span><span class="s0">double </span><span class="s1">latitude</span><span class="s2">) {</span>
+        <span class="s1">String cityname </span><span class="s2">= </span><span class="s4">&quot;Unknown&quot;</span><span class="s2">;</span>
+        <span class="s1">Geocoder gcd </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Geocoder</span><span class="s2">(</span><span class="s1">getBaseContext</span><span class="s2">(), </span><span class="s1">Locale</span><span class="s2">.</span><span class="s1">getDefault</span><span class="s2">());</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">Address</span><span class="s2">&gt; </span><span class="s1">addresses </span><span class="s2">= </span><span class="s1">gcd</span><span class="s2">.</span><span class="s1">getFromLocation</span><span class="s2">(</span><span class="s1">latitude</span><span class="s2">, </span><span class="s1">longitude</span><span class="s2">, </span><span class="s3">1</span><span class="s2">);</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">addresses </span><span class="s2">!= </span><span class="s0">null </span><span class="s2">&amp;&amp; !</span><span class="s1">addresses</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()) {</span>
+                <span class="s1">cityname </span><span class="s2">= </span><span class="s1">addresses</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s3">0</span><span class="s2">).</span><span class="s1">getLocality</span><span class="s2">();</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">cityname </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+                    <span class="s1">cityname </span><span class="s2">= </span><span class="s1">addresses</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s3">0</span><span class="s2">).</span><span class="s1">getAdminArea</span><span class="s2">();</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">IOException e</span><span class="s2">) {</span>
+            <span class="s1">e</span><span class="s2">.</span><span class="s1">printStackTrace</span><span class="s2">();</span>
+        <span class="s2">}</span>
+        <span class="s0">return </span><span class="s1">cityname</span><span class="s2">;</span>
+    <span class="s2">}</span>
+    <span class="s0">private void </span><span class="s1">getweatherinfo</span><span class="s2">(</span><span class="s1">String cityName</span><span class="s2">) {</span>
+        <span class="s1">ProgressBar progressBar </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">progressBar</span><span class="s2">);</span>
+        <span class="s2">((</span><span class="s1">View</span><span class="s2">) </span><span class="s1">progressBar</span><span class="s2">).</span><span class="s1">setVisibility</span><span class="s2">(</span><span class="s1">View</span><span class="s2">.</span><span class="s1">VISIBLE</span><span class="s2">);</span>
+        <span class="s1">idHome</span><span class="s2">.</span><span class="s1">setVisibility</span><span class="s2">(</span><span class="s1">View</span><span class="s2">.</span><span class="s1">GONE</span><span class="s2">);</span>
+        <span class="s1">String url </span><span class="s2">= </span><span class="s4">&quot;https://api.weatherapi.com/v1/forecast.json?key=ec19b9cc1fb740f3a35212822253005&amp;q=&quot; </span><span class="s2">+ </span><span class="s1">cityName </span><span class="s2">+ </span><span class="s4">&quot;&amp;days=1&amp;aqi=yes&amp;alerts=yes&quot;</span><span class="s2">;</span>
+        <span class="s1">idCityName</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s1">cityName</span><span class="s2">);</span>
+
+        <span class="s1">RequestQueue requestQueue </span><span class="s2">= </span><span class="s1">Volley</span><span class="s2">.</span><span class="s1">newRequestQueue</span><span class="s2">(</span><span class="s1">MainActivity</span><span class="s2">.</span><span class="s0">this</span><span class="s2">);</span>
+
+        <span class="s1">JsonObjectRequest jsonObjectRequest </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JsonObjectRequest</span><span class="s2">(</span><span class="s1">Request</span><span class="s2">.</span><span class="s1">Method</span><span class="s2">.</span><span class="s1">GET</span><span class="s2">, </span><span class="s1">url</span><span class="s2">, </span><span class="s0">null</span><span class="s2">,</span>
+                <span class="s0">new </span><span class="s1">Response</span><span class="s2">.</span><span class="s1">Listener</span><span class="s2">&lt;</span><span class="s1">JSONObject</span><span class="s2">&gt;() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onResponse</span><span class="s2">(</span><span class="s1">JSONObject response</span><span class="s2">) {</span>
+                        <span class="s1">progressBar</span><span class="s2">.</span><span class="s1">setVisibility</span><span class="s2">(</span><span class="s1">View</span><span class="s2">.</span><span class="s1">GONE</span><span class="s2">);</span>
+                        <span class="s1">idHome</span><span class="s2">.</span><span class="s1">setVisibility</span><span class="s2">(</span><span class="s1">View</span><span class="s2">.</span><span class="s1">VISIBLE</span><span class="s2">);</span>
+                        <span class="s1">weatherModelArray</span><span class="s2">.</span><span class="s1">clear</span><span class="s2">();</span>
+
+                        <span class="s0">try </span><span class="s2">{</span>
+                            <span class="s1">String temperature </span><span class="s2">= </span><span class="s1">response</span><span class="s2">.</span><span class="s1">getJSONObject</span><span class="s2">(</span><span class="s4">&quot;current&quot;</span><span class="s2">).</span><span class="s1">getString</span><span class="s2">(</span><span class="s4">&quot;temp_c&quot;</span><span class="s2">);</span>
+                            <span class="s1">idTemp</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s1">temperature </span><span class="s2">+ </span><span class="s4">&quot;°C&quot;</span><span class="s2">);</span>
+
+                            <span class="s0">int </span><span class="s1">isDay </span><span class="s2">= </span><span class="s1">response</span><span class="s2">.</span><span class="s1">getJSONObject</span><span class="s2">(</span><span class="s4">&quot;current&quot;</span><span class="s2">).</span><span class="s1">getInt</span><span class="s2">(</span><span class="s4">&quot;is_day&quot;</span><span class="s2">);</span>
+                            <span class="s1">String condition </span><span class="s2">= </span><span class="s1">response</span><span class="s2">.</span><span class="s1">getJSONObject</span><span class="s2">(</span><span class="s4">&quot;current&quot;</span><span class="s2">).</span><span class="s1">getJSONObject</span><span class="s2">(</span><span class="s4">&quot;condition&quot;</span><span class="s2">).</span><span class="s1">getString</span><span class="s2">(</span><span class="s4">&quot;text&quot;</span><span class="s2">);</span>
+                            <span class="s1">String conditionIcon </span><span class="s2">= </span><span class="s1">response</span><span class="s2">.</span><span class="s1">getJSONObject</span><span class="s2">(</span><span class="s4">&quot;current&quot;</span><span class="s2">).</span><span class="s1">getJSONObject</span><span class="s2">(</span><span class="s4">&quot;condition&quot;</span><span class="s2">).</span><span class="s1">getString</span><span class="s2">(</span><span class="s4">&quot;icon&quot;</span><span class="s2">);</span>
+
+                            <span class="s1">Picasso</span><span class="s2">.</span><span class="s1">get</span><span class="s2">().</span><span class="s1">load</span><span class="s2">(</span><span class="s4">&quot;https:&quot; </span><span class="s2">+ </span><span class="s1">conditionIcon</span><span class="s2">).</span><span class="s1">into</span><span class="s2">(</span><span class="s1">idConditionIm</span><span class="s2">);</span>
+                            <span class="s1">idCondition</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s1">condition</span><span class="s2">);</span>
+
+                            <span class="s0">if </span><span class="s2">(</span><span class="s1">isDay </span><span class="s2">== </span><span class="s3">1</span><span class="s2">) {</span>
+                                <span class="s5">// Morning background</span>
+                                <span class="s1">Picasso</span><span class="s2">.</span><span class="s1">get</span><span class="s2">().</span><span class="s1">load</span><span class="s2">(</span><span class="s4">&quot;https://images.unsplash.com/photo-1469474968028-56623f02e42e&quot;</span><span class="s2">).</span><span class="s1">into</span><span class="s2">(</span><span class="s1">idBack</span><span class="s2">);</span>
+                            <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                                <span class="s5">// Night background</span>
+                                <span class="s1">Picasso</span><span class="s2">.</span><span class="s1">get</span><span class="s2">().</span><span class="s1">load</span><span class="s2">(</span><span class="s4">&quot;https://images.unsplash.com/photo-1534796636912-3b95b3ab5986&quot;</span><span class="s2">).</span><span class="s1">into</span><span class="s2">(</span><span class="s1">idBack</span><span class="s2">);</span>
+                            <span class="s2">}</span>
+
+                            <span class="s1">JSONObject forecastObj </span><span class="s2">= </span><span class="s1">response</span><span class="s2">.</span><span class="s1">getJSONObject</span><span class="s2">(</span><span class="s4">&quot;forecast&quot;</span><span class="s2">);</span>
+                            <span class="s1">JSONObject forecastO </span><span class="s2">= </span><span class="s1">forecastObj</span><span class="s2">.</span><span class="s1">getJSONArray</span><span class="s2">(</span><span class="s4">&quot;forecastday&quot;</span><span class="s2">).</span><span class="s1">getJSONObject</span><span class="s2">(</span><span class="s3">0</span><span class="s2">);</span>
+                            <span class="s1">JSONArray hourArray </span><span class="s2">= </span><span class="s1">forecastO</span><span class="s2">.</span><span class="s1">getJSONArray</span><span class="s2">(</span><span class="s4">&quot;hour&quot;</span><span class="s2">);</span>
+
+                            <span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">i </span><span class="s2">= </span><span class="s3">0</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&lt; </span><span class="s1">hourArray</span><span class="s2">.</span><span class="s1">length</span><span class="s2">(); </span><span class="s1">i</span><span class="s2">++) {</span>
+                                <span class="s1">JSONObject hourObj </span><span class="s2">= </span><span class="s1">hourArray</span><span class="s2">.</span><span class="s1">getJSONObject</span><span class="s2">(</span><span class="s1">i</span><span class="s2">);</span>
+                                <span class="s1">String time </span><span class="s2">= </span><span class="s1">hourObj</span><span class="s2">.</span><span class="s1">getString</span><span class="s2">(</span><span class="s4">&quot;time&quot;</span><span class="s2">);</span>
+                                <span class="s1">String temper </span><span class="s2">= </span><span class="s1">hourObj</span><span class="s2">.</span><span class="s1">getString</span><span class="s2">(</span><span class="s4">&quot;temp_c&quot;</span><span class="s2">);</span>
+                                <span class="s1">String img </span><span class="s2">= </span><span class="s1">hourObj</span><span class="s2">.</span><span class="s1">getJSONObject</span><span class="s2">(</span><span class="s4">&quot;condition&quot;</span><span class="s2">).</span><span class="s1">getString</span><span class="s2">(</span><span class="s4">&quot;icon&quot;</span><span class="s2">);</span>
+                                <span class="s1">String wind </span><span class="s2">= </span><span class="s1">hourObj</span><span class="s2">.</span><span class="s1">getString</span><span class="s2">(</span><span class="s4">&quot;wind_kph&quot;</span><span class="s2">);</span>
+                                <span class="s1">weatherModelArray</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s0">new </span><span class="s1">WeatherModel</span><span class="s2">(</span><span class="s1">time</span><span class="s2">, </span><span class="s1">temper</span><span class="s2">, </span><span class="s1">img</span><span class="s2">, </span><span class="s1">wind</span><span class="s2">));</span>
+                            <span class="s2">}</span>
+
+                            <span class="s1">weatherAdapter</span><span class="s2">.</span><span class="s1">notifyDataSetChanged</span><span class="s2">();</span>
+
+                        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">JSONException e</span><span class="s2">) {</span>
+                            <span class="s1">e</span><span class="s2">.</span><span class="s1">printStackTrace</span><span class="s2">();</span>
+                        <span class="s2">}</span>
+                    <span class="s2">}</span>
+                <span class="s2">},</span>
+                <span class="s0">new </span><span class="s1">Response</span><span class="s2">.</span><span class="s1">ErrorListener</span><span class="s2">() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onErrorResponse</span><span class="s2">(</span><span class="s1">VolleyError error</span><span class="s2">) {</span>
+                        <span class="s1">progressBar</span><span class="s2">.</span><span class="s1">setVisibility</span><span class="s2">(</span><span class="s1">View</span><span class="s2">.</span><span class="s1">GONE</span><span class="s2">);</span>
+                        <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s1">MainActivity</span><span class="s2">.</span><span class="s0">this</span><span class="s2">, </span><span class="s4">&quot;Error: &quot; </span><span class="s2">+ </span><span class="s1">error</span><span class="s2">.</span><span class="s1">toString</span><span class="s2">(), </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_LONG</span><span class="s2">).</span><span class="s1">show</span><span class="s2">();</span>
+                    <span class="s2">}</span>
+                <span class="s2">});</span>
+
+        <span class="s1">requestQueue</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">jsonObjectRequest</span><span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>

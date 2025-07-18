@@ -1,0 +1,94 @@
+<html>
+<head>
+<title>WeatherAdapter.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+WeatherAdapter.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">weatherapp</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">content</span><span class="s2">.</span><span class="s1">Context</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">LayoutInflater</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">View</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">ViewGroup</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">ImageView</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">TextView</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">squareup</span><span class="s2">.</span><span class="s1">picasso</span><span class="s2">.</span><span class="s1">Picasso</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">NonNull</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">recyclerview</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">RecyclerView</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">text</span><span class="s2">.</span><span class="s1">ParseException</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">text</span><span class="s2">.</span><span class="s1">SimpleDateFormat</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">ArrayList</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Date</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">WeatherAdapter </span><span class="s0">extends </span><span class="s1">RecyclerView</span><span class="s2">.</span><span class="s1">Adapter</span><span class="s2">&lt;</span><span class="s1">WeatherAdapter</span><span class="s2">.</span><span class="s1">ViewHolder</span><span class="s2">&gt; {</span>
+    <span class="s0">private </span><span class="s1">Context context</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">ArrayList</span><span class="s2">&lt;</span><span class="s1">WeatherModel</span><span class="s2">&gt;</span><span class="s1">WeatherModelArray</span><span class="s2">;</span>
+
+    <span class="s0">public </span><span class="s1">WeatherAdapter</span><span class="s2">(</span><span class="s1">Context context</span><span class="s2">, </span><span class="s1">ArrayList</span><span class="s2">&lt;</span><span class="s1">WeatherModel</span><span class="s2">&gt; </span><span class="s1">weatherModelArray</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">context </span><span class="s2">= </span><span class="s1">context</span><span class="s2">;</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">WeatherModelArray </span><span class="s2">= </span><span class="s1">weatherModelArray</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@NonNull</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">WeatherAdapter</span><span class="s2">.</span><span class="s1">ViewHolder onCreateViewHolder</span><span class="s2">(</span><span class="s1">@NonNull ViewGroup parent</span><span class="s2">, </span><span class="s0">int </span><span class="s1">viewType</span><span class="s2">) {</span>
+        <span class="s1">View view </span><span class="s2">= </span><span class="s1">LayoutInflater</span><span class="s2">.</span><span class="s1">from</span><span class="s2">(</span><span class="s1">context</span><span class="s2">).</span><span class="s1">inflate</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">layout</span><span class="s2">.</span><span class="s1">weather_item</span><span class="s2">, </span><span class="s1">parent</span><span class="s2">, </span><span class="s0">false</span><span class="s2">);</span>
+        <span class="s0">return new </span><span class="s1">ViewHolder</span><span class="s2">(</span><span class="s1">view</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onBindViewHolder</span><span class="s2">(</span><span class="s1">@NonNull ViewHolder holder</span><span class="s2">, </span><span class="s0">int </span><span class="s1">position</span><span class="s2">) {</span>
+        <span class="s1">WeatherModel model</span><span class="s2">=</span><span class="s1">WeatherModelArray</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">position</span><span class="s2">);</span>
+        <span class="s1">holder</span><span class="s2">.</span><span class="s1">idTemparatureCard</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s1">model</span><span class="s2">.</span><span class="s1">getTemp</span><span class="s2">()+</span><span class="s3">&quot;°C&quot;</span><span class="s2">);</span>
+
+        <span class="s1">String iconUrl </span><span class="s2">= </span><span class="s1">model</span><span class="s2">.</span><span class="s1">getIcon</span><span class="s2">();</span>
+        <span class="s0">if </span><span class="s2">(!</span><span class="s1">iconUrl</span><span class="s2">.</span><span class="s1">startsWith</span><span class="s2">(</span><span class="s3">&quot;http&quot;</span><span class="s2">)) {</span>
+            <span class="s1">iconUrl </span><span class="s2">= </span><span class="s3">&quot;https:&quot; </span><span class="s2">+ </span><span class="s1">iconUrl</span><span class="s2">;</span>
+        <span class="s2">}</span>
+        <span class="s1">Picasso</span><span class="s2">.</span><span class="s1">get</span><span class="s2">().</span><span class="s1">load</span><span class="s2">(</span><span class="s1">iconUrl</span><span class="s2">).</span><span class="s1">into</span><span class="s2">(</span><span class="s1">holder</span><span class="s2">.</span><span class="s1">idConditionCard</span><span class="s2">);</span>
+
+
+        <span class="s1">holder</span><span class="s2">.</span><span class="s1">idWindspeed</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s1">model</span><span class="s2">.</span><span class="s1">getWindspeed</span><span class="s2">()+</span><span class="s3">&quot;Km/h&quot;</span><span class="s2">);</span>
+        <span class="s1">SimpleDateFormat input</span><span class="s2">=</span><span class="s0">new </span><span class="s1">SimpleDateFormat</span><span class="s2">(</span><span class="s3">&quot;yyyy-MM-dd HH:mm&quot;</span><span class="s2">);</span>
+        <span class="s1">SimpleDateFormat output</span><span class="s2">=</span><span class="s0">new </span><span class="s1">SimpleDateFormat</span><span class="s2">(</span><span class="s3">&quot;hh:mm aa&quot;</span><span class="s2">);</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">Date t</span><span class="s2">=</span><span class="s1">input</span><span class="s2">.</span><span class="s1">parse</span><span class="s2">(</span><span class="s1">model</span><span class="s2">.</span><span class="s1">getTime</span><span class="s2">());</span>
+            <span class="s1">holder</span><span class="s2">.</span><span class="s1">idTime</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s1">output</span><span class="s2">.</span><span class="s1">format</span><span class="s2">(</span><span class="s1">t</span><span class="s2">));</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">ParseException e</span><span class="s2">) {</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s1">e</span><span class="s2">);</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public int </span><span class="s1">getItemCount</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">WeatherModelArray</span><span class="s2">.</span><span class="s1">size</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public class </span><span class="s1">ViewHolder </span><span class="s0">extends </span><span class="s1">RecyclerView</span><span class="s2">.</span><span class="s1">ViewHolder</span><span class="s2">{</span>
+        <span class="s0">private </span><span class="s1">TextView idTime</span><span class="s2">,</span><span class="s1">idTemparatureCard</span><span class="s2">,</span><span class="s1">idWindspeed</span><span class="s2">;</span>
+        <span class="s0">private </span><span class="s1">ImageView idConditionCard</span><span class="s2">;</span>
+        <span class="s0">public </span><span class="s1">ViewHolder</span><span class="s2">(</span><span class="s1">@NonNull View itemView</span><span class="s2">) {</span>
+            <span class="s0">super</span><span class="s2">(</span><span class="s1">itemView</span><span class="s2">);</span>
+            <span class="s1">idTime</span><span class="s2">=</span><span class="s1">itemView</span><span class="s2">.</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">idTime</span><span class="s2">);</span>
+            <span class="s1">idTemparatureCard</span><span class="s2">=</span><span class="s1">itemView</span><span class="s2">.</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">idTemparatureCard</span><span class="s2">);</span>
+            <span class="s1">idWindspeed</span><span class="s2">=</span><span class="s1">itemView</span><span class="s2">.</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">idWindspeed</span><span class="s2">);</span>
+            <span class="s1">idConditionCard</span><span class="s2">=</span><span class="s1">itemView</span><span class="s2">.</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">idConditionCard</span><span class="s2">);</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>
